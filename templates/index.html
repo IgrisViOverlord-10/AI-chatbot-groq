@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Power BI Assistant</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- ================================================= -->
+    <!-- DASHBOARD -->
+    <!-- ================================================= -->
+
+    <div class="dashboard">
+
+        <div class="dashboard-overlay">
+
+            <h1>📊 AI Power BI Assistant</h1>
+
+            <p>Live Business Intelligence Dashboard</p>
+
+            <!-- KPI Cards -->
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+                    <h3>Total Sales</h3>
+                    <h2 id="kpiSales">--</h2>
+                </div>
+
+                <div class="kpi-card">
+                    <h3>Total Profit</h3>
+                    <h2 id="kpiProfit">--</h2>
+                </div>
+
+                <div class="kpi-card">
+                    <h3>Total Orders</h3>
+                    <h2 id="kpiOrders">--</h2>
+                </div>
+
+                <div class="kpi-card">
+                    <h3>Average Order</h3>
+                    <h2 id="kpiAverage">--</h2>
+                </div>
+
+            </div>
+
+            <!-- Charts -->
+
+            <div class="chart-grid">
+
+                <div class="chart-card">
+
+                    <h3>Sales by Region</h3>
+
+                    <div class="chart-container">
+                        <canvas id="regionChart"></canvas>
+                    </div>
+
+                </div>
+
+                <div class="chart-card">
+
+                    <h3>Sales by Category</h3>
+
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+
+                </div>
+
+                <div class="chart-card">
+
+                    <h3>Monthly Sales</h3>
+
+                    <div class="chart-container">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+
+                </div>
+
+                <div class="chart-card">
+
+                    <h3>Payment Methods</h3>
+
+                    <div class="chart-container">
+                        <canvas id="paymentChart"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- FLOATING AI BUTTON -->
+    <!-- ================================================= -->
+
+    <button id="aiButton">
+        🤖
+    </button>
+
+    <!-- ================================================= -->
+    <!-- CHAT WINDOW -->
+    <!-- ================================================= -->
+
+    <div id="chatWindow" class="hidden">
+
+        <!-- Header -->
+
+        <div id="chatHeader">
+
+            <div class="header-title">
+                🤖 AI Power BI Assistant
+            </div>
+
+            <div class="header-buttons">
+
+                <button id="clearBtn" title="Clear Chat">
+                    🗑
+                </button>
+
+                <button id="minimizeBtn">
+                    —
+                </button>
+
+                <button id="closeBtn">
+                    ✕
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Messages -->
+
+        <div id="chatMessages">
+
+            <div class="bot-wrapper">
+
+                <div class="avatar">
+                    🤖
+                </div>
+
+                <div class="bot-message">
+
+                    <h3>Welcome!</h3>
+
+                    <p>
+                        I'm your AI Business Intelligence Assistant.
+                    </p>
+
+                    <p>
+                        Ask me anything about your dashboard.
+                    </p>
+
+                    <div class="timestamp">
+                        Just now
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Suggestions -->
+
+        <div id="suggestions">
+
+            <button class="suggestion">
+                📈 Total Sales
+            </button>
+
+            <button class="suggestion">
+                📊 Dashboard Summary
+            </button>
+
+            <button class="suggestion">
+                🏆 Top Product
+            </button>
+
+            <button class="suggestion">
+                🌎 Best Region
+            </button>
+
+        </div>
+
+        <!-- Typing -->
+
+        <div id="typingIndicator" class="hidden">
+
+            🤖 AI is typing...
+
+        </div>
+
+        <!-- Input -->
+
+        <div id="chatInput">
+
+            <input
+                id="questionInput"
+                type="text"
+                placeholder="Ask a business question..."
+                autocomplete="off"
+            >
+
+            <button id="sendButton">
+                Send
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- JavaScript -->
+    <!-- ================================================= -->
+
+    <script src="/static/script.js"></script>
+
+</body>
+
+</html>
