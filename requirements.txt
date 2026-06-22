@@ -1,8 +1,6 @@
-fastapi
-uvicorn
-pandas
-python-dotenv
-jinja2
-groq
-python-multipart
-plotly
+Flask==3.1.1
+gunicorn==23.0.0
+groq==0.31.0
+numpy==2.3.1
+pandas==2.3.0
+python-dotenv==1.1.1
