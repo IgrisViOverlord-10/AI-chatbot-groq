@@ -4,12 +4,11 @@ from explainer import explain
 from memory import memory
 
 
-# ----------------------------------------
-# Map intents to analysis functions
-# ----------------------------------------
+# =====================================================
+# Intent -> Analysis Function Mapping
+# =====================================================
 
 INTENT_FUNCTIONS = {
-
     "highest_selling_product": highest_selling_product,
     "lowest_selling_product": lowest_selling_product,
     "top_products": top_products,
@@ -25,6 +24,7 @@ INTENT_FUNCTIONS = {
 
     "top_payment_method": top_payment_method,
     "top_age_group": top_age_group,
+
     "best_category": best_category,
     "most_profitable_product": most_profitable_product,
     "sales_growth": sales_growth,
@@ -39,18 +39,16 @@ INTENT_FUNCTIONS = {
 }
 
 
-# ----------------------------------------
+# =====================================================
 # Process User Question
-# ----------------------------------------
+# =====================================================
 
 def process_question(question):
 
-    # Detect intent
     intent = detect_intent(question)
 
-    print(f"\nDetected Intent: {intent}")
+    print(f"\n✅ Intent Detected : {intent}")
 
-    # Run analysis
     analysis_function = INTENT_FUNCTIONS.get(intent)
 
     if analysis_function:
@@ -59,33 +57,22 @@ def process_question(question):
         intent = "dashboard_summary"
         data = dashboard_summary()
 
-    # ----------------------------------------
-    # Extract useful parameters
-    # ----------------------------------------
-
     parameters = {}
 
     if isinstance(data, dict):
 
-        if "product" in data:
-            parameters["product"] = data["product"]
+        for key in [
+            "product",
+            "region",
+            "category",
+            "payment_method",
+            "age_group"
+        ]:
+            if key in data:
+                parameters[key] = data[key]
 
-        if "region" in data:
-            parameters["region"] = data["region"]
-
-        if "category" in data:
-            parameters["category"] = data["category"]
-
-        if "payment_method" in data:
-            parameters["payment_method"] = data["payment_method"]
-
-        if "age_group" in data:
-            parameters["age_group"] = data["age_group"]
-
-    # Retrieve previous conversation
     history = memory.get_context()
 
-    # Ask AI to explain
     answer = explain(
         intent=intent,
         data=data,
@@ -93,7 +80,6 @@ def process_question(question):
         parameters=parameters
     )
 
-    # Save conversation
     memory.add(
         question=question,
         intent=intent,
@@ -102,82 +88,74 @@ def process_question(question):
         parameters=parameters
     )
 
-    print(f"📌 Memory Size: {memory.size()} conversation(s)")
-
     return answer
 
 
-# ----------------------------------------
-# Main Program
-# ----------------------------------------
+# =====================================================
+# Welcome Screen
+# =====================================================
 
-def main():
+def show_banner():
 
-    print("=" * 60)
+    print("=" * 65)
     print("📊 AI Power BI Business Assistant")
-    print("=" * 60)
+    print("=" * 65)
 
-    print("\nExample Questions:\n")
+    print("\n💬 Try asking:\n")
 
     examples = [
         "Which product sold the most?",
-        "Show top 5 products",
-        "Which product sold the least?",
-        "Which region has the highest sales?",
-        "Show sales by region",
-        "Compare men and women sales",
-        "Sales by category",
-        "Sales by payment method",
-        "Sales by age group",
-        "Which payment method is used the most?",
-        "Which age group generates the highest sales?",
-        "Which product earns the highest profit?",
-        "Which category performs the best?",
-        "What is the sales growth?",
-        "Total sales",
-        "Total profit",
-        "Total orders",
-        "Average order value",
-        "Dashboard summary",
-        "exit"
+        "Which region generated the highest sales?",
+        "Compare sales between men and women.",
+        "What is the total profit?",
+        "Give me a dashboard summary."
     ]
 
-    for item in examples:
-        print(f"• {item}")
+    for example in examples:
+        print(f"  • {example}")
 
-    print()
+    print("\n(Type 'exit' to quit)\n")
+
+
+# =====================================================
+# Main
+# =====================================================
+
+def main():
+
+    show_banner()
 
     while True:
 
-        question = input("Ask: ").strip()
+        question = input("📝 Ask: ").strip()
 
         if not question:
-            print("⚠ Please enter a question.\n")
+            print("⚠️ Please enter a question.\n")
             continue
 
         if question.lower() in ["exit", "quit"]:
-            print("\n👋 Goodbye!")
+            print("\n👋 Thank you for using AI Power BI Assistant.")
             break
 
         try:
 
-            print("\n🔍 Detecting intent...")
-            print("📈 Running analysis...")
-            print("🤖 Generating explanation...")
+            print("\n🔍 Understanding your question...")
+            print("📈 Running business analysis...")
+            print("🤖 Generating AI response...\n")
 
             answer = process_question(question)
 
-            print("\n" + "=" * 60)
+            print("=" * 65)
             print(answer)
-            print("=" * 60)
+            print("=" * 65)
 
         except KeyboardInterrupt:
             print("\n\n👋 Session terminated.")
             break
 
         except Exception as e:
-            print("\n❌ Something went wrong.")
-            print(f"Details: {e}")
+            print("\n❌ Unexpected Error")
+            print(e)
 
 
 if __name__ == "__main__":
